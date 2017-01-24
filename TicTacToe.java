@@ -1,6 +1,6 @@
 class TicTacToe{
   public static String[] welcome(){ //Here I am introducing the user to the board and telling them their symbol
-    System.out.println("Welcome to Tic-Tac-Toe! As the user, your symbol will be 'o'.");
+    System.out.println("Welcome to Tic-Tac-Toe!");
     System.out.println("Here is how the board will be laid out. Refer to this diagram during the game.");
     System.out.println("  A1  |  B1  |  C1  ");
     System.out.println("--------------------");
@@ -54,17 +54,18 @@ class TicTacToe{
     while(h==false);
     return userOccupied;}
   
-  public static boolean[] computerTurn(String[] board, boolean[] userOccupied, boolean[] compOccupied){
-    System.out.println("Now it's my turn!");
-    int rndmSpaceNum;
-    boolean g=false;
-    do{
-      rndmSpaceNum=(int)(Math.round(8*(Math.random()))); //This generates a random number between 0 and 8 (corresponds to an element of "board") 
-      if((userOccupied[rndmSpaceNum]==false)&&(compOccupied[rndmSpaceNum]==false)){ //If neither the user nor the computer occupy this space already...
-        compOccupied[rndmSpaceNum]=true; //...the computer now occupies this space
-        g=true;}}
-    while(g==false);//The loop will continue to execute until the computer has occupied a new space
-    System.out.println("I have chosen to occupy " + board[rndmSpaceNum]);
+  public static boolean[] computerTurn(String[] board, boolean[] userOccupied, boolean[] compOccupied, boolean userWin, int m){ //This method is the computer's turn
+    if((userWin!=true)&&(m<9)){ //computer turn only executes if the user hasn't already won
+      System.out.println("Now it's my turn!");
+      int rndmSpaceNum;
+      boolean g=false;
+      do{
+        rndmSpaceNum=(int)(Math.round(8*(Math.random()))); //This generates a random number between 0 and 8 (corresponds to an element of "board") 
+        if((userOccupied[rndmSpaceNum]==false)&&(compOccupied[rndmSpaceNum]==false)){ //If neither the user nor the computer occupy this space already...
+          compOccupied[rndmSpaceNum]=true; //...the computer now occupies this space
+          g=true;}}
+      while(g==false);//The loop will continue to execute until the computer has occupied a new space
+      System.out.println("I have chosen to occupy " + board[rndmSpaceNum]);}
     return compOccupied;}
   
   public static void update(String[] board, boolean[] userOccupied, boolean[] compOccupied){ //Here, I am reminding the user what spaces they and the computer occupy
@@ -77,17 +78,93 @@ class TicTacToe{
       if(compOccupied[v]==true){
         System.out.print(board[v] + ", ");}}}
   
-  //public static void checkWin(String[] board, boolean[] userOccupied, boolean[] compOccupied){
+  public static boolean userCheckWin(boolean[] userOccupied, boolean userWin){ //This method checks if the user has won
+    if(userOccupied[0]==true){
+      if(userOccupied[1]==true){
+        if(userOccupied[2]==true){
+          userWin=true;}} //user wins if A1, A2 and A3 are occupied by user
+      if(userOccupied[3]==true){
+        if(userOccupied[6]==true){
+          userWin=true;}} //user wins if A1, B1 and C1 are occupied by user
+      if(userOccupied[4]==true){
+        if(userOccupied[8]==true){
+          userWin=true;}}}//user wins if A1, B2 and C3 are occupied by user
+    if(userOccupied[4]==true){
+      if(userOccupied[3]==true){
+        if(userOccupied[5]==true){
+          userWin=true;}}  //user wins if B1, B2 and B3 are occupied by user
+      if(userOccupied[1]==true){
+        if(userOccupied[7]==true){
+          userWin=true;}} //user wins if A2, B2 and C2 are occupied by user
+      if(userOccupied[2]==true){
+        if(userOccupied[6]==true){
+          userWin=true;}}}//user wins if A3, B2 and C1 are occupied by user
+    if(userOccupied[8]==true){
+      if(userOccupied[6]==true){
+        if(userOccupied[7]==true){
+          userWin=true;}} //user wins if C1, C2 and C3 are occupied by user
+      if(userOccupied[2]==true){
+        if(userOccupied[5]==true){
+          userWin=true;}}}//user wins if A3, B3 and C3 are occupied by user
+    return userWin;}
     
-        
-  public static void main(String[]args){
+    public static boolean compCheckWin(boolean[] compOccupied, boolean compWin){ //This method checks if the computer has won
+      if(compOccupied[0]==true){
+        if(compOccupied[1]==true){
+          if(compOccupied[2]==true){
+            compWin=true;}} //computer wins if A1, A2 and A3 are occupied by computer
+        if(compOccupied[3]==true){
+          if(compOccupied[6]==true){
+            compWin=true;}} //computer wins if A1, B1 and C1 are occupied by computer
+        if(compOccupied[4]==true){
+          if(compOccupied[8]==true){
+            compWin=true;}}} //computer wins if A1, B2 and C3 are occupied by computer
+      if(compOccupied[4]==true){
+        if(compOccupied[3]==true){
+          if(compOccupied[5]==true){
+            compWin=true;}}   //computer wins if B1, B2 and B3 are occupied by computer
+        if(compOccupied[1]==true){
+          if(compOccupied[7]==true){
+            compWin=true;}}  //computer wins if A2, B2 and C2 are occupied by computer
+        if(compOccupied[2]==true){
+          if(compOccupied[6]==true){
+            compWin=true;}}} //computer wins if A3, B2 and C1 are occupied by computer
+      if(compOccupied[8]==true){
+        if(compOccupied[6]==true){
+          if(compOccupied[7]==true){
+            compWin=true;}}  //computer wins if C1, C2 and C3 are occupied by computer
+        if(compOccupied[2]==true){
+          if(compOccupied[5]==true){
+            compWin=true;}}} //computer wins if A3, B3 and C3 are occupied by computer
+      return compWin;}
+      
+    
+ public static void main(String[]args){
     String[] n;
     n=welcome();
     boolean[] userOccupied=new boolean[9]; //This array will store which spaces the user has occupied (each element corresponds to a space on the board)
     boolean[] compOccupied=new boolean[9]; //This array will do the same for the computer
-    for(int r=1; r<=4; r++){
+    boolean userWin=false;
+    boolean compWin=false;
+    int m=0;
+    do{
       userOccupied=userTurn(n, userOccupied, compOccupied); //Execute one user turn, and update the userOccupied array with the changes made
-      compOccupied=computerTurn(n, userOccupied, compOccupied); //Do the same for the computer
+      userWin=userCheckWin(userOccupied, userWin); //Check if user has won and update the userWin boolean if so
+      if(userWin==false){
+        m++;}
+      compOccupied=computerTurn(n, userOccupied, compOccupied, userWin, m); //Do the same for the computer
+      compWin=compCheckWin(compOccupied, compWin);
+      if((userWin==false)&&(compWin==false)){
+        m++;}
       update(n, userOccupied, compOccupied);} //update the user on which spaces are occupied by whom
-    System.out.println("Thanks for playing!");}}
+    while((userWin!=true)&&(compWin!=true)&&(m<=9)); //Exit the loop if the user has won, the computer has won or the board is full
+    if(userWin==true){ //If the user wins, congratulate them
+      System.out.println("You win! I'm impressed! Thanks for playing!");}
+    else if(compWin==true){ //If the computer wins, rub it in their face
+      System.out.println("Haha I win! Better luck next time!");}
+    else{  //If the board is full, let them know
+      System.out.println("Oops! The board is full. I guess nobody wins. Let's play again!");}}}
+      
+          
+          
     
